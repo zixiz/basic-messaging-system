@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const {User} = require('../db_connection/sequelize');  
-const registerValidation = require("../validation/registerValidation");
+const {registerValidation} = require("../validation/validations");
 module.exports = async function register (req, res) {
 
     const {error} = registerValidation(req.body);
@@ -15,7 +15,10 @@ module.exports = async function register (req, res) {
     const hashedPassword = await bcrypt.hash(req.body.password,salt);
 
     try{
-        const response = await User.create({email:req.body.email,password:hashedPassword,full_name:req.body.full_name});
+        const response = await User.create({email:req.body.email,
+          password:hashedPassword,
+          full_name:req.body.full_name
+        });
         return res.json({response:response});
       }catch (err) {
         return res.status(400).send(err);

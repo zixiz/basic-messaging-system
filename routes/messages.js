@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-const {Message,User} = require('../db_connection/sequelize');
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.send('agreed');
-});
+const messagesController = require('../controllers/messagesController');
+const sendMessageController = require('../controllers/sendMessageController');
+
+router.get('/main', messagesController);
+
+router.post('/main/message',sendMessageController);
 
 module.exports = router;

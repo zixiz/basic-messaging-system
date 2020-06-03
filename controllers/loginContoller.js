@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const {User} = require('../db_connection/sequelize');  
-const loginValidation = require('../validation/loginValidation');
+const {loginValidation} = require('../validation/validations');
 
 module.exports = async function login (req, res) {
     const {error} = loginValidation(req.body);

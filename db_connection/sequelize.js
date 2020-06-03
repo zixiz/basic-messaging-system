@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
-const userModel = require('../orm_models/user');
-const messageModel = require('../orm_models/message');
+const userModel = require('../orm_models/userModel');
+const messageModel = require('../orm_models/messageModel');
 
 const sequelize = new Sequelize('messaging_sys', 'root', 'root', {
     host: 'localhost',
@@ -18,8 +18,8 @@ const User = userModel(sequelize, Sequelize);
 const Message = messageModel(sequelize, Sequelize);
 
 
-User.hasMany(Message,{foreignKey:'reciver'});
-User.hasMany(Message,{foreignKey:'sender'});
+Message.belongsTo(User,{foreignKey:'reciver'});
+Message.belongsTo(User,{foreignKey:'sender'});
 
 
 sequelize.sync({})
