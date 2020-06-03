@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
-// ORM models
-
+const userModel = require('../orm_models/user');
+const messageModel = require('../orm_models/message');
 
 const sequelize = new Sequelize('messaging_sys', 'root', 'root', {
     host: 'localhost',
@@ -14,13 +14,12 @@ const sequelize = new Sequelize('messaging_sys', 'root', 'root', {
     }
 });
 
-// connect models with
-// const User = UserModel(sequelize, Sequelize);
+const User = userModel(sequelize, Sequelize);
+const Message = messageModel(sequelize, Sequelize);
 
 
-
-// assosiations 
-// User.belongsTo(Role,{foreignKey:'role_id'});
+User.hasMany(Message,{foreignKey:'reciver'});
+User.hasMany(Message,{foreignKey:'sender'});
 
 
 sequelize.sync({})
@@ -30,8 +29,5 @@ sequelize.sync({})
 
 module.exports = {
     User,
-    classes,
-    Student,
-    Role,
-    Attendance
+    Message
 };
