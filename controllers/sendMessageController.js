@@ -1,6 +1,8 @@
 const {sendMessageValidation} = require('../validation/validations');
 const sendMessage = require('../db queries/sendMessage')
-module.exports = async function sendMessageController (req, res) {
+
+module.exports = function sendMessageController (req, res) {
+
     let data = {sender:req.body.sender,
         reciver:req.body.reciver,
         message:req.body.message,
@@ -8,7 +10,8 @@ module.exports = async function sendMessageController (req, res) {
         }
     
        const {error} = sendMessageValidation(data);
-       if(error) return res.json(error.details[0].message);
+       if(error) return res.json({success:false,error:error.details[0].message});
+
        data.deleted = 0;
        
        sendMessage(req, res ,data);   

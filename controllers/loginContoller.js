@@ -5,16 +5,16 @@ const {loginValidation} = require('../validation/validations');
 
 module.exports = async function login (req, res) {
     const {error} = loginValidation(req.body);
-    if(error) return res.json(error.details[0].message);
+    if(error) return res.json({success:false,error:error.details[0].message});
 
     const userData = await User.findOne({
         where:{email:req.body.email}
     });
-    if(userData === null) return res.status(400).send("Email or password are wrong");
+    if(userData === null) return res.json({success:false,error:"Email or password are wrong"});
 
     const validPassword = await bcrypt.compare(req.body.password,userData.password);
-    if(!validPassword) return res.status(400).send("Invalid Password");
+    if(!validPassword) return res.json({success:false,error:"Invalid Password"});
 
     const token = jwt.sign({id:userData.id},process.env.TOKEN_SECRET);
-    res.header('auth-token',token).send({token});
+    res.header('auth-token',token).json({success:true,token});
 };
