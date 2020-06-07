@@ -1,6 +1,6 @@
 const {Message} = require('../db_connection/sequelize');  
 
-module.exports = function deleteMessageController (req, res) {
+module.exports = async function deleteMessageController (req, res) {
   const user = req.user.id;
   let id = parseInt(req.params.id);
 
@@ -19,7 +19,7 @@ module.exports = function deleteMessageController (req, res) {
       return res.json({success:false,error:error});
     });
   }else{
-    return res.json({success:false,"Cant delete message"});
+    return res.json({success:false,error:"Cant delete message"});
   }
 
 };

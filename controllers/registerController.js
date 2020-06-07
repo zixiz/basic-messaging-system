@@ -19,7 +19,7 @@ module.exports = async function register (req, res) {
           password:hashedPassword,
           full_name:req.body.full_name
         });
-        return res.json({success:true,response:response});
+        return res.json({success:true,full_name:full_name});
       }catch (err) {
         return res.json({success:false,error:err});
       }
