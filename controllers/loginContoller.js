@@ -15,6 +15,6 @@ module.exports = async function login (req, res) {
     const validPassword = await bcrypt.compare(req.body.password,userData.password);
     if(!validPassword) return res.json({success:false,error:"Invalid Password"});
 
-    const token = jwt.sign({id:userData.id},process.env.TOKEN_SECRET);
-    res.header('auth-token',token).json({success:true,token,isLoggedIn:true});
+    const token = jwt.sign({id:userData.id},process.env.TOKEN_SECRET, {expiresIn: 86400});
+    res.json({success:true,accessToken:token,isLoggedIn:true});
 };
