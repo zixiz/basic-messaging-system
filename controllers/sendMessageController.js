@@ -3,7 +3,7 @@ const sendMessage = require('../db queries/sendMessage')
 
 module.exports = function sendMessageController (req, res) {
 
-    let data = {sender:req.body.sender,
+    let data = {sender:req.user.id,
         reciver:req.body.reciver,
         message:req.body.message,
         subject:req.body.subject
@@ -11,6 +11,8 @@ module.exports = function sendMessageController (req, res) {
     
        const {error} = sendMessageValidation(data);
        if(error) return res.json({success:false,error:error.details[0].message});
+
+       if(req.user.id !== data.sender)
 
        data.deleted = 0;
        

@@ -13,7 +13,7 @@ module.exports = async function register (req, res) {
     
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password,salt);
-
+    let full_name = req.body.full_name;
     try{
         const response = await User.create({email:req.body.email,
           password:hashedPassword,

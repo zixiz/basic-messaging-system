@@ -16,5 +16,5 @@ module.exports = async function login (req, res) {
     if(!validPassword) return res.json({success:false,error:"Invalid Password"});
 
     const token = jwt.sign({id:userData.id},process.env.TOKEN_SECRET, {expiresIn: 86400});
-    res.json({success:true,accessToken:token,isLoggedIn:true});
+    res.json({success:true,accessToken:token,isLoggedIn:true,id:userData.id,email:userData.email});
 };

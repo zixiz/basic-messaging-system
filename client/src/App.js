@@ -1,98 +1,74 @@
-import React, { Component } from 'react';
-import './App.css';
-import { Container ,Col,Row} from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import {connect} from "react-redux";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
-import Login from './components/Login';
-import Register from './components/Register';
-import Home from './components/Home'
-import {CheckSession} from './store/actions/actions'
+import AuthService from "./services/auth.service";
+
+import Login from "./components/login.component";
+import Register from "./components/register.component";
+import Profile from "./components/profile.component";
 
 
-class App extends Component {
-  
-  componentDidMount(){
+const App = () => {
+  const [currentUser, setCurrentUser] = useState(undefined);
 
-  }
-
-  render() {
-    // console.log("this.props.isLoggedIn" + " " + this.props.isLoggedIn)
-    if(this.props.isLoggedIn){
-      return (
-        <Router>
-          <div>
-          <nav className="navbar navbar-expand navbar-dark bg-dark">      
-                <div className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                    <Link to={"/"} className="nav-link">
-                      Login
-                    </Link>
-                  </li>
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
     
-                  <li className="nav-item">
-                    <Link to={"/register"} className="nav-link">
-                      Sign Up
-                    </Link>
-                  </li>
-                </div>
-            </nav>
-          </div>
-    
-              <Switch>
-                {/* <Route exact path={"/home"} component={Home} /> */}
-                <Route exact path="/" component={Home} />
-              </Switch>
-        </Router>
-      );
-    }else{
-      return (
-        <Router>
-          <div>
-          <nav className="navbar navbar-expand navbar-dark bg-dark">      
-                <div className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                    <Link to={"/"} className="nav-link">
-                      Login
-                    </Link>
-                  </li>
-    
-                  <li className="nav-item">
-                    <Link to={"/register"} className="nav-link">
-                      Sign Up
-                    </Link>
-                  </li>
-                </div>
-            </nav>
-          </div>
-    
-          <Switch>
-                {/* <Route exact path={"/home"} component={Home} /> */}
-                <Route exact path="/" component={Login} />
-                <Route exact path="/register" component={Register} />
-              </Switch>
-        </Router>
-        
-        
-      );
+    if (user) {
+      setCurrentUser(user);
     }
-    
-  }
-}
+  }, []);
 
-const mapStateToProps = state => {
-  return {isLoggedIn:state.isLoggedIn};
+  const logOut = () => {
+    AuthService.logout();
+  };
+
+  return (
+    <Router>
+      <div>
+        <nav className="navbar navbar-expand navbar-dark bg-dark">
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.username}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/" className="nav-link" onClick={logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/"} className="nav-link">
+                  Login
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link to={"/register"} className="nav-link">
+                  Sign Up
+                </Link>
+              </li>
+            </div>
+          )}
+        </nav>
+
+        <div className="container mt-3">
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/register" component={Register} />
+            <Route exact path="/profile" component={Profile} />
+          </Switch>
+        </div>
+      </div>
+    </Router>
+  );
 };
-
-
-const  mapDispatchToProps = dispatch => {
-  return  {
-      CheckSession: function() {
-          return  dispatch(CheckSession());
-      }
-  }
-};
-
-const app = connect(mapStateToProps,mapDispatchToProps)(App);
 
 export default App;
