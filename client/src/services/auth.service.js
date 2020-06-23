@@ -20,9 +20,10 @@ const logout = () => {
     localStorage.removeItem("user");
   };
   
-const register = (email, password) => {
+const register = (email, full_name, password) => {
     return axios.post(API_URL + "register", {
         email,
+        full_name,
         password
         });
 } 

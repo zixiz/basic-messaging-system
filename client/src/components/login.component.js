@@ -48,9 +48,10 @@ const Login = (props) => {
         if(data.success){
             props.history.push("/profile");
             window.location.reload();
+        }else{
+          setMessage(data.error);
+          setLoading(false);
         }
-        setMessage(data.error);
-        setLoading(false);
         },
         (error) => {
           const resMessage =
@@ -108,7 +109,7 @@ const Login = (props) => {
               {loading && (
                 <span className="spinner-border spinner-border-sm"></span>
               )}
-              <span>Login</span>
+              <span>Sign In</span>
             </button>
           </div>
 

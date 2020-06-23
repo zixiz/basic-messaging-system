@@ -8,7 +8,7 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Profile from "./components/profile.component";
-
+import Compose from "./components/compose.component"
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -32,13 +32,18 @@ const App = () => {
           {currentUser ? (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
+                <Link to={"/compose"} className="nav-link">
+                  Compose Message
                 </Link>
               </li>
               <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  Profile
+                </Link>
+              </li>
+              <li className="nav-item ">
                 <a href="/" className="nav-link" onClick={logOut}>
-                  LogOut
+                  Log Out
                 </a>
               </li>
             </div>
@@ -46,7 +51,7 @@ const App = () => {
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/"} className="nav-link">
-                  Login
+                  Sign In
                 </Link>
               </li>
 
@@ -64,6 +69,7 @@ const App = () => {
             <Route exact path="/" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/compose" component={Compose} />
           </Switch>
         </div>
       </div>

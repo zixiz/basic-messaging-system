@@ -28,7 +28,7 @@ const validEmail = (value) => {
 
 
 const vpassword = (value) => {
-  if (value.length <= 5 || value.length > 40) {
+  if (value.length < 4 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
         The password must be between 5 and 40 characters.
@@ -37,12 +37,23 @@ const vpassword = (value) => {
   }
 };
 
+const vfullName = (value) => {
+    if (!value) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          Full Name is required
+        </div>
+      );
+    }
+  };
+
 const Register = (props) => {
   const form = useRef();
   const checkBtn = useRef();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [full_name, setfull_name] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -58,6 +69,11 @@ const Register = (props) => {
     setPassword(password);
   };
 
+  const onChangeFullName = (e) => {
+    const full_name = e.target.value;
+    setfull_name(full_name);
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -67,10 +83,16 @@ const Register = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(email, password).then(
+      AuthService.register(email,full_name, password).then(
         (response) => {
-          setMessage(response.data.message);
-          setSuccessful(true);
+            if(response.data.success){
+                setMessage("Account successfully created, now you can sign in");
+                setSuccessful(true);
+            }else{
+                setMessage(response.data.error);
+                setSuccessful(false);
+            }
+            
         },
         (error) => {
           const resMessage =
@@ -112,6 +134,18 @@ const Register = (props) => {
               </div>
 
               <div className="form-group">
+                <label htmlFor="password">Full Name</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="full_name"
+                  value={full_name}
+                  onChange={onChangeFullName}
+                  validations={[required, vfullName]}
+                />
+              </div>
+
+              <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <Input
                   type="password"
@@ -138,6 +172,15 @@ const Register = (props) => {
                 {message}
               </div>
             </div>
+          )}
+
+          {successful && (
+              <div className="form-group">
+                  <button className="btn btn-success btn-block" onClick={()=>{
+                      props.history.push("/");
+                      window.location.reload();
+                  }}>Go To Sign In</button>
+              </div>
           )}
           <CheckButton style={{ display: "none" }} ref={checkBtn} />
         </Form>
