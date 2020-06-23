@@ -148,8 +148,7 @@ const [noDataToShow,setNoDataToShow] = useState(false);
             </div>
             </div>
             </div>
-        </div>
-        
+        </div>  
     </div>
   );
 };
