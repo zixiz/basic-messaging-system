@@ -10,8 +10,6 @@ var authRouter = require('./routes/auth');
 const verifyToken = require('./middleware/verifyToken');
 
 var app = express();
-
-
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', process.env.CLIENTDOMAIN);
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
