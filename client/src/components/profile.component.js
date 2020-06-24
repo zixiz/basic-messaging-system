@@ -43,12 +43,14 @@ const [noDataToShow,setNoDataToShow] = useState(false);
             let response = await userService.deleteMessage(messageForDelete);
             let newsentMesages = await userService.getAllSentMessages();
             setsentMesages(newsentMesages.data.response);
+            isMessagesEmpty(newsentMesages.data.response);
             setLoading(false);
             setmessageForDelete("");
         }else{
             let response = await userService.deleteMessage(messageForDelete);
             let newsentMesages = await userService.getAllRecivedMessages();
-            setrecivedMesages(newsentMesages.data.response)
+            setrecivedMesages(newsentMesages.data.response);
+            isMessagesEmpty(newsentMesages.data.response);
             setLoading(false);
             setmessageForDelete("");
         }
@@ -78,14 +80,14 @@ const [noDataToShow,setNoDataToShow] = useState(false);
                         {isSent ? (
                         <div className="card-body">
                         <h5 className="card-title">
-                            There isn't any sent messages yet.
+                            There aren't any sent messages yet.
                         </h5>
                         <button className="btn btn-primary" onClick={sendToComposeMessage}>Compose Message</button>
                         </div>
                         ):(
                         <div className="card-body">
                         <h5 className="card-title">
-                            There is no messages yet.
+                            There are no messages yet.
                         </h5>
                         </div>
                         )}
@@ -131,7 +133,7 @@ const [noDataToShow,setNoDataToShow] = useState(false);
         </div>
         </div>
         <div className="modal fade" id="deleteMessagePrompt" tabIndex="-1" role="dialog" aria-labelledby="deleteMessagePromptLabel" aria-hidden="true">
-            <div className="modal-dialog" role="document">
+            <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
             <div className="modal-header">
                 <h5 className="modal-title" id="exampleModalLabel">Are you sure you want to DELETE?</h5>
@@ -140,7 +142,7 @@ const [noDataToShow,setNoDataToShow] = useState(false);
                 </button>
             </div>
             <div className="modal-body">
-                It would delete the message for bouth sender and reciver.
+                This will delete the message for both the sender and reciver.
             </div>
             <div className="modal-footer">
                 <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
