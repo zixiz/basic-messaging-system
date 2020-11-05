@@ -3,9 +3,9 @@ const sendMessage = require('../db queries/sendMessage')
 
 module.exports = function sendMessageController (req, res) {
     let data = {sender:req.user.id,
-        reciver:req.body.sender.reciver,
-        message:req.body.sender.message,
-        subject:req.body.sender.subject
+        reciver:req.body.reciver,
+        message:req.body.message,
+        subject:req.body.subject
         }
 
     

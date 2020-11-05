@@ -5,10 +5,13 @@ const getMessagesController = require('../controllers/getMessagesController');
 const sendMessageController = require('../controllers/sendMessageController');
 const deleteMessageController = require('../controllers/deleteMessageController');
 const getAllUsersForSendMessage = require('../controllers/getAllUsersForSendMessage');
+const getMessageController = require('../controllers/getMessageController');
 
 router.get('/users',getAllUsersForSendMessage);
 
 router.get('/message', getMessagesController);
+
+router.get('/message/:id', getMessageController);
 
 router.post('/message',sendMessageController);
 

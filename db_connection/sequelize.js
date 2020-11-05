@@ -29,5 +29,6 @@ sequelize.sync({})
 
 module.exports = {
     User,
-    Message
+    Message,
+    sequelize
 };
