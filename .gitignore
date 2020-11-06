@@ -1,2 +1,5 @@
 .env
+.envClient
 /node_modules
+.vscode
+.idea
